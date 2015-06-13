@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+    This file contains the bean definitions (plain old Java objects) used by the DispatcherServlet
+
+    The name of this file is determined by the value of the <servlet-name/> element from the 'web.xml',
+    with '-servlet' appended to it (hence 'mvc-dispatcher-servlet.xml').
+    This is the standard naming convention used with Spring's Web MVC framework.
+-->
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:context="http://www.springframework.org/schema/context"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

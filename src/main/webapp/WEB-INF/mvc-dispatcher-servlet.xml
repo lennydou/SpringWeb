@@ -6,6 +6,25 @@
     with '-servlet' appended to it (hence 'mvc-dispatcher-servlet.xml').
     This is the standard naming convention used with Spring's Web MVC framework.
 -->
+<!--
+    Spring MVC framework is request-driven, designed around a central Servlet that dispatches requests to controllers
+    and offers other functionality that facilitated the development of web applications.
+
+    Specially, Spring MVC framework is completely integrated with Spring IoC container and as such allows you to use
+    every other feature that Spring has.
+
+    Upon initialization of DispatcherServlet, Spring MVC looks for a file named [servlet-name]-servlet.xml in WEB-INF directory
+    of the web application and creates the beans defined there, overriding the definitions of any beans defined with
+    the same name in the global scope.
+ -->
+<!--
+    The Spring DispatcherServlet uses special beans to process requests and render the appropriate views. These beans
+    are part of Spring MVC. You can choose which special beans to use by simply configuring one or more of them in the WebApplicationContext.
+
+    However you don't need to do that initially since Spring MVC maintains a list of default beans to use if you don't configure any.
+
+    The default configuration information is kept in the file DispatcherServlet.properties in the package org.springframework.web.servlet
+-->
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:context="http://www.springframework.org/schema/context"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -17,6 +36,10 @@
 
     <context:component-scan base-package="com.lendou.spring.controller" />
 
+    <!--
+        All special beans have some reasonable defaults of their own.
+        It's common to configure an InternalResourceViewResolver settings its prefix property to the parent location of view files
+     -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix">
             <value>/WEB-INF/pages/</value>
@@ -25,4 +48,68 @@
             <value>.jsp</value>
         </property>
     </bean>
+
+    <!--
+        HandlerMapping
+        Maps incoming requests to handlers and a list of pre- and post-processors (handler interceptors) based on some
+        criteria the details of which vary by 'HandlerMapping' implementation. The most popular implementation supports
+        annotated controllers but other implementations exists as well.
+     -->
+
+    <!--
+        HandlerAdapter
+        Helps the DispatcherServlet to invoke a handler mapped to a request regardless of the handler is actually invoked.
+        For example, invoking an annotated controller requires resolving various annotations. Thus the main purpose of
+        a HandlerAdapter is to shield the DispatcherServlet from such details.
+     -->
+
+    <!--
+        HandlerExceptionResolver
+        Maps exceptions to views also allowing for more complex exception handing code
+     -->
+
+    <!--
+        ViewResolver
+        Resolves logical String-based view names to actual 'View' types
+     -->
+
+    <!--
+        LocaleResolver & LocaleContextResolver
+        Resolves the locale a client is using and possibly their time zone, in order to be able to offer internationalized views
+     -->
+
+    <!--
+        ThemeResolver
+        Resolves themes your web application can use, for example, to offer personalized layouts.
+     -->
+
+    <!--
+        MultipartResolver
+        Parses multi-part requests for example to support processing the uploads from HTML forms
+     -->
+
+    <!--
+        FlashMapManager
+        Stores and retrieves the 'input' and the 'output' FlashMap that can be used to pass attributes from one request
+        to another, usually across a redirect.
+     -->
 </beans>
+
+<!--
+    DispatcherServlet Processing Sequence
+    1. The WebApplicationContext is searched for and bound in the request as an attribute that the controller and other
+       elements in the process can use.
+    2. The locale resolver is bound to the request to enable elements in the process to resolve the locale to use when
+       processing the request (rendering the view, preparing data, and so on). If you don't need local resolving, you do not need it.
+    3. The theme resolver is bound ot the request to let elements such as views determine which theme to use. If you don't use themes, you can ignore it
+    4. If you specify a multipart file resolver, the request is inspected for multiparts; if multiparts are found, the request
+       is wrapped in a MultipartHttpServletRequest for further processing by other elements in the process.
+    5. An appropriate handler is searched for. If a handler is found, the execution chain associated with the handler
+       (preprocessors, postprocessors, and controllers) is executed in order to prepare a model or rendering.
+    6. If a model is returned, the view is rendered. If no model is returned, (may be due to a preprocessor or postprocessor
+       intercepting the request, perhaps for security reasons), no view is rendered, because the request could already have been fulfilled.
+
+
+    Handler exception resolvers that are declared in the WebApplicationContext pick up exceptions that are thrown during
+    processing of the request. Using these exception resolvers allows you to define custom behaviors to address exceptions.
+-->

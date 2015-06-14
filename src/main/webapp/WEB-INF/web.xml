@@ -1,3 +1,4 @@
+<!-- http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html -->
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
@@ -8,7 +9,46 @@
 
     <servlet>
         <servlet-name>mvc-dispatcher</servlet-name>
+        <!--
+            Spring MVC framework is designed around DispatcherServlet, which dispatches requests to handlers, with
+            configurable handler mappings, view resolution, locale, time zone and theme resolution as well as support
+            for uploading files.
+
+            The default handler is based on @Controller and @RequestMapping annotations, offering a wide range of flexible
+            handing methods. @Controller mechanism also allows you to create RESTful web sites and applications, through
+            the @PathVariable annotation and other features.
+        -->
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+
+        <!--
+            contextClass
+            Class that implements WebApplicationContext, which instantiates the context used by this Servlet.
+            By default, the XmlWebApplicationContext is used.
+         -->
+        <!--<init-param>-->
+            <!--<param-name>contextClass</param-name>-->
+            <!--<param-value>org.springframework.web.context.support.XmlWebApplicationContext</param-value>-->
+        <!--</init-param>-->
+
+        <!--
+            contextConfiguration
+            String that is passed to the context instance (specified by contextClass) to indicate where context(s) can be
+            found. The string consists potentially of multiple strings (using a comma as a delimiter) to support multiple
+            contexts. In case of multiple context locations with beans that are defined twice, the latest location takes precedence.
+         -->
+        <!--<init-param>-->
+            <!--<param-name>contextConfiguration</param-name>-->
+            <!--<param-value>/WEB-INF/mvc-dispatcher-servlet.xml</param-value>-->
+        <!--</init-param>-->
+
+        <!--
+            namespace
+            Namespace of the WebApplicationContext. Defaults to [servlet-name]-servlet
+         -->
+        <!--<init-param>-->
+            <!--<param-name>namespace</param-name>-->
+            <!--<param-value>mvc-dispatcher-servlet</param-value>-->
+        <!--</init-param>-->
         <load-on-startup>1</load-on-startup>
     </servlet>
 
@@ -21,6 +61,11 @@
            appended to it (hence 'mvc-dispatcher-servlet.xml')
 
            This is the standard naming convention used with Spring's Web MVC framework.
+
+        The patten-savvy reader will recognize that DispatcherServlet is an extension of the 'FRONT CONTROLLER'
+        DispatcherServlet is an actual Servlet (inherits from HttpServlet), as such is declared in web.xml. So you
+        need to map requests that you want the DispatcherServlet to handle, by using a URL mapping in the same web.xml.
+        This is standard Java EE Servlet configuration.
      -->
     <servlet-mapping>
         <servlet-name>mvc-dispatcher</servlet-name>

@@ -7,12 +7,27 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+/**
+ * A Controller's responsibility:
+ *   1. Preparing a model 'Map' with data
+ *   2. Selecting a view name
+ *
+ * While Controller can also write directly to the response stream and complete the request.
+ */
 @Controller
 public class BaseController {
     private static int counter = 0;
     private static final String VIEW_INDEX = "index";
     private final static Logger logger = LoggerFactory.getLogger(BaseController.class);
 
+    /**
+     * The model (the M in MVC) is a 'Map' interface, which allows for the complete abstraction of view technology.
+     *
+     * You can integrate directly with template based rendering technologies such as JSP, Velocity and Freemarker, or
+     * directly generate XML, JSON, Atom, and many other types of content.
+     *
+     * The model 'Map' is simply transformed into an appropriate format, such as JSP request attributes, a Velocity template model.
+     */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String welcome(ModelMap model) {
         System.out.println("in welcome method");

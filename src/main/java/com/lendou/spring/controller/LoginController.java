@@ -9,6 +9,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+/**
+ * You use the @RequestMapping annotation to map URLs such as '/appointments' onto an entire class or a particular handler
+ * method. Typically the class-level annotation maps a specific request path (or path pattern) onto a form controller,
+ * with additional method-level annotations narrowing the primary mapping for a specific HTTP method request method ('GET', 'POST', etc)
+ * or an HTTP request parameter condition.
+ */
 @Controller
 public class LoginController {
     private static final String VIEW_INDEX = "login";
@@ -24,6 +30,22 @@ public class LoginController {
         return VIEW_INDEX;
     }
 
+    /**
+     Path Pattern
+     * In addition to URI templates, the @RequestMapping annotation also supports Ant-style path patterns (for example, /myPath/*.do).
+     * A combination of URI template variables and Ant-style globs is also supported (e.g. /owners/'*'/pets/{petId})
+     *
+     * When a URL matches multiple patterns, a sort is used to find the most specific match.
+     * When two patterns have the same count and length, the pattern with fewer wild cards is considered more specific. For example,
+     * /hotels/{hotel} is more specific that /hotels/*
+     *
+     * Path Pattern Matching By Suffix
+     * By default Spring MVC automatically performs ".*" suffix pattern matching so that a controller mapped to /person is also implicitly mapped to /person.*
+     * This allows indicating content types via file extensions, e.g. /person.pdf, /person.xml, etc.
+     *
+     * A common pitfall is last segment of the mapping is a URI variable, e.g. /person/{id}. While a request for /person/1.json would
+     * result in path variable id=1 and extension ".json"
+     */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(ModelMap model) {
         System.out.println("in login method");
@@ -51,7 +73,6 @@ public class LoginController {
     @RequestMapping(value = "/login/user/{userName:[a-z-]}")
     public String login(Model model, @PathVariable String userName) {
         System.out.println("in /login/user/{userName:[a-z-]}");
-
         return VIEW_HOME;
     }
 }

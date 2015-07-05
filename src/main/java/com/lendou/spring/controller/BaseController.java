@@ -37,6 +37,8 @@ public class BaseController {
         return VIEW_INDEX;
     }
 
+
+
 //    @RequestMapping(value = "/{name}", method = RequestMethod.GET)
 //    public String welcomeName(@PathVariable String name, ModelMap model) {
 //        model.addAttribute("message", "Welcome " + name);

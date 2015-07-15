@@ -3,4 +3,8 @@ Add the first change
 Add the second change
 in deva
 in devb
+<<<<<<< HEAD
 more changes in deva
+=======
+new changes in devb
+>>>>>>> devb

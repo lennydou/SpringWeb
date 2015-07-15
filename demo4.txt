@@ -1,7 +1,0 @@
-test in demo4.txt
-Add the first change
-Add the second change
-in deva
-in devb
-more changes in deva
-new changes in devb
